@@ -1,11 +1,20 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Criando um DataFrame
+# Criar um DataFrame a partir de um arquivo CSV
 df = pd.read_csv('./data/primates_dataset.csv')
 
-# Visualizando o DataFrame
+# Visualizar o DataFrame
 print(df)
+
+# Definir a ordem desejada das categorias de status de saúde
+status_order = ['Healthy', 'Near Threatened', 'Vulnerable', 'Endangered', 'Critically Endangered']
+
+# Converter a coluna 'health_status' para uma categoria com a ordem especificada
+df['health_status'] = pd.Categorical(df['health_status'], categories=status_order, ordered=True)
+
+# Classificar o DataFrame pela coluna 'health_status'
+df = df.sort_values('health_status')
 
 # Criar o gráfico
 plt.figure(figsize=(10, 6))
