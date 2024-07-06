@@ -1,27 +1,37 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Criar um DataFrame a partir de um arquivo CSV
 df = pd.read_csv('./data/primates_dataset.csv')
 
-# Visualizar o DataFrame
-print(df)
+print(df.to_string)
 
-# Definir a ordem desejada das categorias de status de saúde
-status_order = ['Healthy', 'Near Threatened', 'Vulnerable', 'Endangered', 'Critically Endangered']
+# Remover linhas que contenham valores vazios em qualquer coluna
+df.dropna(inplace=True)
 
-df['health_status'] = pd.Categorical(df['health_status'], categories=status_order, ordered=True)
+# Garantir que a coluna 'population' seja do tipo inteiro
+df['population'] = df['population'].astype(int)
 
-# Classificar o DataFrame pela coluna 'health_status'
-df = df.sort_values('health_status')
+# Garantir que a coluna 'year' seja do tipo inteiro
+df['year'] = df['year'].astype(int)
 
-# Criar o gráfico
-plt.figure(figsize=(10, 6))
-plt.bar(df['health_status'], df['population'], color='blue')
+# Obter a lista de espécies únicas
+species_list = df['species_name'].unique()
 
-plt.title('População vs Status de Saúde')
-plt.xlabel('Status de Saúde')
-plt.ylabel('População')
+# Criar um gráfico para cada espécie
+for species in species_list:
+    species_data = df[df['species_name'] == species]
+    plt.figure(figsize=(10, 6))
+    plt.plot(species_data['year'], species_data['population'], marker='o', linestyle='-')
+    
+    plt.title(f'População de {species} ao longo do tempo')
+    plt.xlabel('Ano')
+    plt.ylabel('População')
+    plt.grid(True)
+    plt.xticks(species_data['year'])  # Adicionar ticks no eixo x para cada ano
+    plt.yticks(species_data['population'])  # Adicionar ticks no eixo y para cada valor de população
+    plt.tight_layout()
+    
+    # Salvar o gráfico como imagem ou exibir
+    plt.savefig(f'img/{species}_population_over_time.png')  # Salvar como imagem
+    #plt.show()  # Exibir o gráfico
 
-# Mostrar o gráfico
-plt.show()
