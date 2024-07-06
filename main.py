@@ -7,12 +7,6 @@ print(df.to_string)
 
 df.dropna(inplace=True)
 
-# Garantir que a coluna 'population' seja do tipo inteiro
-df['population'] = df['population'].astype(int)
-
-# Garantir que a coluna 'year' seja do tipo inteiro
-df['year'] = df['year'].astype(int)
-
 # Obter a lista de espécies únicas
 species_list = df['species_name'].unique()
 
