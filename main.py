@@ -5,7 +5,6 @@ df = pd.read_csv('./data/primates_dataset.csv')
 
 print(df.to_string)
 
-# Remover linhas que contenham valores vazios em qualquer coluna
 df.dropna(inplace=True)
 
 # Garantir que a coluna 'population' seja do tipo inteiro
@@ -27,11 +26,10 @@ for species in species_list:
     plt.xlabel('Ano')
     plt.ylabel('População')
     plt.grid(True)
-    plt.xticks(species_data['year'])  # Adicionar ticks no eixo x para cada ano
-    plt.yticks(species_data['population'])  # Adicionar ticks no eixo y para cada valor de população
+    plt.xticks(species_data['year']) 
+    plt.yticks(species_data['population'])
     plt.tight_layout()
     
-    # Salvar o gráfico como imagem ou exibir
     plt.savefig(f'img/{species}_population_over_time.png')  # Salvar como imagem
-    #plt.show()  # Exibir o gráfico
+    #plt.show()  
 
